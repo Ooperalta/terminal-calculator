@@ -1,0 +1,26 @@
+# .gitattributes for cross-platform C# projects
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Explicitly set C# source files and project files to use LF (Linux style)
+# This prevents merge conflicts caused by line ending differences between Windows and Linux
+*.cs text eol=lf
+*.csproj text eol=lf
+*.sln text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Explicitly set bash scripts to use LF (Required for Linux execution)
+*.sh text eol=lf
+
+# Explicitly set batch scripts to use CRLF (Required for Windows execution)
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Treat these as binary files so Git doesn't try to change line endings
+*.dll binary
+*.exe binary
+*.pdb binary
