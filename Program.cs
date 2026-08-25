@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using TerminalCalculator.UI;
+using TerminalCalculator.Services;
+
+var calculatorService = new CalculatorService();
+var calculatorUI = new CalculatorUI(calculatorService);
+calculatorUI.Run();

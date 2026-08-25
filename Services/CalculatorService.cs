@@ -1,6 +1,6 @@
 namespace TerminalCalculator.Services;
 
-public class Calculator : ICalculatorService
+public class CalculatorService : ICalculatorService
 {
     public double Add(double num1, double num2)
     {
@@ -18,14 +18,14 @@ public class Calculator : ICalculatorService
 
     public double Divide(double num1, double num2)
     {
-        if(num2 == 0)
+        if (num2 == 0)
         {
             throw new DivideByZeroException("Cannot divide by zero.");
-            
+
         }
 
         return num1 / num2;
     }
-        
-    
+
+
 }
