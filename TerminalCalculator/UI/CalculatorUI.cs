@@ -28,6 +28,7 @@ public class CalculatorUI
             3. Multiply
             4. Divide
             5. View History
+            6. Complete Operation
             0. Exit
             ===========================
             Choose an option: 
@@ -37,9 +38,11 @@ public class CalculatorUI
 
             double num1;
             double num2;
+            char operatorChar;
             double result;
             string askFirstNumber = "Enter the first number: ";
             string askSecondNumber = "Enter the second number: ";
+            string askCompleteOperation = "Enter the complete operation (e.g., 5 + 3): ";
 
             switch (choice)
             {
@@ -68,20 +71,9 @@ public class CalculatorUI
                     Console.ReadLine();
                     break;
                 case "4":
-                    try
-                    {
-                        num1 = GetNumberFromUser(askFirstNumber);
-                        num2 = GetNumberFromUser(askSecondNumber);
-                        result = _calculatorService.Divide(num1, num2);
-
-                        Console.WriteLine($"Result: {result}");
-                        Console.ReadLine();
-                    }
-                    catch (DivideByZeroException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        Console.ReadLine();
-                    }
+                    num1 = GetNumberFromUser(askFirstNumber);
+                    num2 = GetNumberFromUser(askSecondNumber);
+                    ExecuteDivision(num1, num2);
 
                     break;
                 case "5":
@@ -102,6 +94,34 @@ public class CalculatorUI
                         }
                         Console.ReadLine();
                     }
+
+                    break;
+                case "6":
+                    (num1, operatorChar, num2) = GetCompleteOperationFromUser(askCompleteOperation);
+                    switch (operatorChar)
+                    {
+                        case '+':
+                            result = _calculatorService.Add(num1, num2);
+                            Console.WriteLine($"Result: {result}");
+                            Console.ReadLine();
+                            break;
+                        case '-':
+                            result = _calculatorService.Subtract(num1, num2);
+                            Console.WriteLine($"Result: {result}");
+                            Console.ReadLine();
+                            break;
+                        case '*':
+                            result = _calculatorService.Multiply(num1, num2);
+                            Console.WriteLine($"Result: {result}");
+                            Console.ReadLine();
+                            break;
+                        case '/':
+                            ExecuteDivision(num1, num2);
+
+                            break;
+
+                    }
+
 
                     break;
                 case "0":
@@ -137,5 +157,48 @@ public class CalculatorUI
 
     }
 
+    private (double, char, double) GetCompleteOperationFromUser(string message)
+    {
+        while (true)
+        {
+            char[] operators = { '+', '-', '*', '/' };
+            Console.Write(message);
 
+
+            string? operationInput = Console.ReadLine();
+            operationInput = operationInput.Replace(" ", "");
+            int operatorPosition = operationInput.IndexOfAny(operators);
+            char operatorChar = operationInput[operatorPosition];
+            string[] partsOfOperation = operationInput.Split(operatorChar);
+            if (double.TryParse(partsOfOperation[0], out double firstConvertedNumber) && double.TryParse(partsOfOperation[1], out double secondConvertedNumber))
+            {
+                return (firstConvertedNumber, operatorChar, secondConvertedNumber);
+            }
+            else
+            {
+                Console.WriteLine("Invalid operation. Please enter a valid operation.");
+            }
+        }
+
+
+
+    }
+
+    private double ExecuteDivision(double num1, double num2)
+    {
+        try
+        {
+            var result = _calculatorService.Divide(num1, num2);
+            Console.WriteLine($"Result: {result}");
+            Console.ReadLine();
+            return result;
+        }
+        catch (DivideByZeroException ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.ReadLine();
+            return double.NaN;
+        }
+
+    }
 }
