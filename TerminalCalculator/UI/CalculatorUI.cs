@@ -167,10 +167,16 @@ public class CalculatorUI
 
             string? operationInput = Console.ReadLine();
             operationInput = operationInput.Replace(" ", "");
-            int operatorPosition = operationInput.IndexOfAny(operators);
+            int operatorPosition = operationInput.IndexOfAny(operators, 1);
+            if (operatorPosition == -1)
+            {
+                Console.WriteLine("Invalid operation. Please enter a valid operation.");
+                continue;
+            }
             char operatorChar = operationInput[operatorPosition];
-            string[] partsOfOperation = operationInput.Split(operatorChar);
-            if (double.TryParse(partsOfOperation[0], out double firstConvertedNumber) && double.TryParse(partsOfOperation[1], out double secondConvertedNumber))
+            string num1 = operationInput.Substring(0, operatorPosition);
+            string num2 = operationInput.Substring(operatorPosition + 1);
+            if (double.TryParse(num1, out double firstConvertedNumber) && double.TryParse(num2, out double secondConvertedNumber))
             {
                 return (firstConvertedNumber, operatorChar, secondConvertedNumber);
             }
