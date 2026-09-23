@@ -27,8 +27,8 @@ public class CalculatorUI
             2. Subtract
             3. Multiply
             4. Divide
-            5. View History
-            6. Complete Operation
+            5. Complete Operation
+            6. View History
             0. Exit
             ===========================
             Choose an option: 
@@ -77,26 +77,6 @@ public class CalculatorUI
 
                     break;
                 case "5":
-                    List<string> history = _calculatorService.GetHistory();
-                    if (history.Count == 0)
-                    {
-                        Console.WriteLine("No history available.");
-                        Console.ReadLine();
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Calculation History:");
-                        foreach (string item in history)
-                        {
-                            Console.WriteLine(item);
-
-                        }
-                        Console.ReadLine();
-                    }
-
-                    break;
-                case "6":
                     (num1, operatorChar, num2) = GetCompleteOperationFromUser(askCompleteOperation);
                     switch (operatorChar)
                     {
@@ -124,6 +104,27 @@ public class CalculatorUI
 
 
                     break;
+                case "6":
+                    List<string> history = _calculatorService.GetHistory();
+                    if (history.Count == 0)
+                    {
+                        Console.WriteLine("No history available.");
+                        Console.ReadLine();
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Calculation History:");
+                        foreach (string item in history)
+                        {
+                            Console.WriteLine(item);
+
+                        }
+                        Console.ReadLine();
+                    }
+
+                    break;
+
                 case "0":
                     Console.WriteLine("Exiting the Calculator.Bye!");
                     return;

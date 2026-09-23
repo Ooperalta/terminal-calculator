@@ -46,3 +46,6 @@ project.assets.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# History files
+History.txt
