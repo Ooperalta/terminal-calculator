@@ -4,11 +4,16 @@ public class CalculatorService : ICalculatorService
 {
 
     private readonly List<string> _history = new List<string>();
+
+    public CalculatorService()
+    {
+        LoadHistoryFromFile();
+    }
     public double Add(double num1, double num2)
     {
         double result = num1 + num2;
-
-        _history.Add($"{num1} + {num2} = {result}");
+        string historyEntry = $"{num1} + {num2} = {result}";
+        LogOperation(historyEntry);
         return result;
 
     }
@@ -16,15 +21,15 @@ public class CalculatorService : ICalculatorService
     public double Subtract(double num1, double num2)
     {
         double result = num1 - num2;
-
-        _history.Add($"{num1} - {num2} = {result}");
+        string historyEntry = $"{num1} - {num2} = {result}";
+        LogOperation(historyEntry);
         return result;
     }
     public double Multiply(double num1, double num2)
     {
         double result = num1 * num2;
-
-        _history.Add($"{num1} * {num2} = {result}");
+        string historyEntry = $"{num1} * {num2} = {result}";
+        LogOperation(historyEntry);
         return result;
     }
 
@@ -38,11 +43,25 @@ public class CalculatorService : ICalculatorService
         else
         {
             double result = num1 / num2;
-
-            _history.Add($"{num1} / {num2} = {result}");
+            string historyEntry = $"{num1} / {num2} = {result}";
+            LogOperation(historyEntry);
             return result;
         }
 
+    }
+
+    public void LogOperation(string operation)
+    {
+        _history.Add(operation);
+        File.AppendAllText("History.txt", operation + Environment.NewLine);
+    }
+
+    public void LoadHistoryFromFile()
+    {
+        if (File.Exists("History.txt"))
+        {
+            _history.AddRange(File.ReadAllLines("History.txt"));
+        }
     }
 
     public List<string> GetHistory()

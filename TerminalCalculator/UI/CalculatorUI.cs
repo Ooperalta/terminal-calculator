@@ -165,7 +165,7 @@ public class CalculatorUI
             Console.Write(message);
 
 
-            string? operationInput = Console.ReadLine();
+            string operationInput = Console.ReadLine() ?? string.Empty;
             operationInput = operationInput.Replace(" ", "");
             int operatorPosition = operationInput.IndexOfAny(operators, 1);
             if (operatorPosition == -1)
@@ -183,6 +183,7 @@ public class CalculatorUI
             else
             {
                 Console.WriteLine("Invalid operation. Please enter a valid operation.");
+                continue;
             }
         }
 
