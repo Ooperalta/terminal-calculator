@@ -17,10 +17,28 @@ jobs:
           dotnet-version: "9.0.x"
 
       - name: Publish windows-x64
-        run: dotnet publish TerminalCalculator -r win-x64 -p:PublishSingleFile=true -o output
+        run: dotnet publish TerminalCalculator -r win-x64 -p:PublishSingleFile=true -o output-windows
 
-      - name: Save artifact
+      - name: Publish linux-x64
+        run: dotnet publish TerminalCalculator -r linux-x64 -p:PublishSingleFile=true -o output-linux
+
+      - name: Publish macOS-x64
+        run: dotnet publish TerminalCalculator -r osx-x64 -p:PublishSingleFile=true -o output-macos
+
+      - name: Save artifact Windows
         uses: actions/upload-artifact@v5
         with:
           name: TerminalCalculator-Windows
-          path: output/
+          path: output-windows/
+
+      - name: Save artifact linux
+        uses: actions/upload-artifact@v5
+        with:
+          name: TerminalCalculator-linux
+          path: output-linux/
+
+      - name: Save artifact macOS
+        uses: actions/upload-artifact@v5
+        with:
+          name: TerminalCalculator-macOs
+          path: output-macos/
