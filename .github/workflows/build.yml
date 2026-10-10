@@ -46,7 +46,7 @@ jobs:
           path: output-macos/
 
       - name: Publish Release
-        uses: softprops/actions-gh-release@v2
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: "latest"
           name: "TerminalCalculator Release"
