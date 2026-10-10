@@ -20,13 +20,13 @@ jobs:
           dotnet-version: "9.0.x"
 
       - name: Publish windows-x64
-        run: dotnet publish TerminalCalculator -r win-x64 -p:PublishSingleFile=true -o output-windows
+        run: dotnet publish TerminalCalculator -r win-x64 -p:PublishSingleFile=true  -p:AssemblyName=TerminalCalculator-Windows -o output-windows
 
       - name: Publish linux-x64
-        run: dotnet publish TerminalCalculator -r linux-x64 -p:PublishSingleFile=true -o output-linux
+        run: dotnet publish TerminalCalculator -r linux-x64 -p:PublishSingleFile=true -p:AssemblyName=TerminalCalculator-Linux -o output-linux
 
       - name: Publish macOS-x64
-        run: dotnet publish TerminalCalculator -r osx-x64 -p:PublishSingleFile=true -o output-macos
+        run: dotnet publish TerminalCalculator -r osx-x64 -p:PublishSingleFile=true -p:AssemblyName=TerminalCalculator-macOS -o output-macos
 
       - name: Save artifact Windows
         uses: actions/upload-artifact@v5
@@ -53,6 +53,6 @@ jobs:
           tag_name: "latest"
           name: "TerminalCalculator Release"
           files: |
-            output-windows/TerminalCalculator.exe
-            output-linux/TerminalCalculator
-            output-macos/TerminalCalculator
+            output-windows/TerminalCalculator-Windows.exe
+            output-linux/TerminalCalculator-Linux
+            output-macos/TerminalCalculator-macOS
