@@ -3,6 +3,8 @@ name: Build and Publish TerminalCalculator
 on:
   push:
     branches: ["main"]
+    permissions:
+      contents: write
 
 jobs:
   build:
@@ -40,5 +42,15 @@ jobs:
       - name: Save artifact macOS
         uses: actions/upload-artifact@v5
         with:
-          name: TerminalCalculator-macOs
+          name: TerminalCalculator-macOS
           path: output-macos/
+
+      - name: Publish Release
+        uses: softprops/actions-gh-release@v2
+        with:
+          tag_name: "latest"
+          name: "TerminalCalculator Release"
+          files: |
+            output-windows/TerminalCalculator.exe
+            output-linux/TerminalCalculator
+            output-macos/TerminalCalculator
