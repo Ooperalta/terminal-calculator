@@ -3,6 +3,7 @@ name: Build and Publish TerminalCalculator
 on:
   push:
     branches: ["main"]
+    tags: ["v*"]
 
 permissions:
   contents: write
@@ -22,35 +23,44 @@ jobs:
       - name: Run Tests
         run: dotnet test TerminalCalculator.Tests
 
+      
+
       - name: Publish windows-x64
         run: dotnet publish TerminalCalculator -r win-x64 -p:PublishSingleFile=true  -p:AssemblyName=TerminalCalculator-Windows -o output-windows
+        if: github.ref_type == 'tag'
 
       - name: Publish linux-x64
         run: dotnet publish TerminalCalculator -r linux-x64 -p:PublishSingleFile=true -p:AssemblyName=TerminalCalculator-Linux -o output-linux
+         if: github.ref_type == 'tag'
 
       - name: Publish macOS-x64
         run: dotnet publish TerminalCalculator -r osx-x64 -p:PublishSingleFile=true -p:AssemblyName=TerminalCalculator-macOS -o output-macos
+         if: github.ref_type == 'tag'
 
       - name: Save artifact Windows
         uses: actions/upload-artifact@v5
+         if: github.ref_type == 'tag'
         with:
           name: TerminalCalculator-Windows
           path: output-windows/
 
       - name: Save artifact linux
         uses: actions/upload-artifact@v5
+         if: github.ref_type == 'tag'
         with:
           name: TerminalCalculator-linux
           path: output-linux/
 
       - name: Save artifact macOS
         uses: actions/upload-artifact@v5
+         if: github.ref_type == 'tag'
         with:
           name: TerminalCalculator-macOS
           path: output-macos/
 
       - name: Publish Release
         uses: softprops/action-gh-release@v2
+         if: github.ref_type == 'tag'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: "latest"
