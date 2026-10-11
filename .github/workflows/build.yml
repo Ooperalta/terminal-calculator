@@ -1,4 +1,4 @@
-name: Build and Publish TerminalCalculator
+name: Build, Test and Publish TerminalCalculator
 
 on:
   push:
@@ -23,46 +23,50 @@ jobs:
       - name: Run Tests
         run: dotnet test TerminalCalculator.Tests
 
-      - name: Publish windows-x64
-        run: dotnet publish TerminalCalculator -r win-x64 -p:PublishSingleFile=true  -p:AssemblyName=TerminalCalculator-Windows -o output-windows
+      - name: Prepare version number
         if: github.ref_type == 'tag'
+        run: echo "Version=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+
+      - name: Publish windows-x64
+        if: github.ref_type == 'tag'
+        run: dotnet publish TerminalCalculator -r win-x64 -p:PublishSingleFile=true  -p:AssemblyName=TerminalCalculator-Windows -p:Version=${{env.Version}} -o output-windows
 
       - name: Publish linux-x64
-        run: dotnet publish TerminalCalculator -r linux-x64 -p:PublishSingleFile=true -p:AssemblyName=TerminalCalculator-Linux -o output-linux
         if: github.ref_type == 'tag'
+        run: dotnet publish TerminalCalculator -r linux-x64 -p:PublishSingleFile=true -p:AssemblyName=TerminalCalculator-Linux -p:Version=${{env.Version}} -o output-linux
 
       - name: Publish macOS-x64
-        run: dotnet publish TerminalCalculator -r osx-x64 -p:PublishSingleFile=true -p:AssemblyName=TerminalCalculator-macOS -o output-macos
         if: github.ref_type == 'tag'
+        run: dotnet publish TerminalCalculator -r osx-x64 -p:PublishSingleFile=true -p:AssemblyName=TerminalCalculator-macOS -p:Version=${{env.Version}} -o output-macos
 
       - name: Save artifact Windows
-        uses: actions/upload-artifact@v5
         if: github.ref_type == 'tag'
+        uses: actions/upload-artifact@v5
         with:
           name: TerminalCalculator-Windows
           path: output-windows/
 
       - name: Save artifact linux
-        uses: actions/upload-artifact@v5
         if: github.ref_type == 'tag'
+        uses: actions/upload-artifact@v5
         with:
           name: TerminalCalculator-linux
           path: output-linux/
 
       - name: Save artifact macOS
-        uses: actions/upload-artifact@v5
         if: github.ref_type == 'tag'
+        uses: actions/upload-artifact@v5
         with:
           name: TerminalCalculator-macOS
           path: output-macos/
 
       - name: Publish Release
-        uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: "latest"
-          name: "TerminalCalculator Release"
+          tag_name: ${{github.ref_name}}
+          name: "TerminalCalculator Release ${{github.ref_name}}"
           files: |
             output-windows/TerminalCalculator-Windows.exe
             output-linux/TerminalCalculator-Linux
