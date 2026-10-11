@@ -19,6 +19,9 @@ jobs:
         with:
           dotnet-version: "9.0.x"
 
+      - name: Run Tests
+        run: dotnet test TerminalCalculator.Tests
+
       - name: Publish windows-x64
         run: dotnet publish TerminalCalculator -r win-x64 -p:PublishSingleFile=true  -p:AssemblyName=TerminalCalculator-Windows -o output-windows
 
