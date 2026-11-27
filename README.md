@@ -1,5 +1,7 @@
 # TerminalCalculator
 
+![Build Status](https://github.com/Ooperalta/terminal-calculator/actions/workflows/build.yml/badge.svg)
+
 A simple and straightforward terminal calculator built in C# (.NET 9).
 
 ## ✨ Features
