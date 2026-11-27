@@ -1,6 +1,8 @@
 # TerminalCalculator
 
-![Build Status](https://github.com/Ooperalta/terminal-calculator/actions/workflows/build.yml/badge.svg)
+[![Build Status](https://github.com/Ooperalta/terminal-calculator/actions/workflows/build.yml/badge.svg)](https://github.com/Ooperalta/terminal-calculator/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/Ooperalta/terminal-calculator)](https://github.com/Ooperalta/terminal-calculator/releases)
+![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet)
 
 A simple and straightforward terminal calculator built in C# (.NET 9).
 
